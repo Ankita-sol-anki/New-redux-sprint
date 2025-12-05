@@ -9,12 +9,18 @@ let initialState = {
 
 const userSlices = createSlice({
     name : "user",
-    initialState ,
-    reducers : {
-        setLoginState : (state, action) => {
-            state.isLoggedIn = action.payload;
+    initialState,
+    reducers :{
+        removeLoader:(state,action)=>{
+            state.isLoading = false;
+        },
+        setUserDetails:(state,action)=>{
+            state.userDetails = action.payload;
         },
     },
-});
-
+        
+        
+        });
+        export const {removeLoader,setuserDetails} = userSlices.actions;
+  
  export default userSlices.reducer;

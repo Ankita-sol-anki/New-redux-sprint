@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import { use, useState } from 'react';
+import './App.css';
+import Loader from './component/ui/Loader.jsx';
+import { useEffect } from 'react';
+import { useDispatch ,useSelector } from 'react-redux';
+import { removeLoader, setuserDetails } from './redux/user/userSlices.js';
 
 function App() {
-  const [count, setCount] = useState(0)
+let dispatch = useDispatch();
+let loading = useSelector((state) => state.user.isLoading);
+let userName = useSelector((state) => state.user?.userDetails?.status);
+   let isLoggedin = "NO"
+  
+
+   function handleSetuserDetails(){
+    dispatch(
+setuserDetails({
+    data: { name: "Ankita solanki",
+      status: "logged in"}
+    })
+    );
+   }
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(removeLoader());
+    }, 4000);
+  }, [dispatch]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+
 
   return (
+
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1> user Name</h1> <br />
+      <h2>Ankita solanki</h2>
+      <h3>Logged in status{isLoggedin} </h3>
+      <button onClick={handleSetuserDetails}>set user</button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
